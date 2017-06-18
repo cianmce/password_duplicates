@@ -1,15 +1,12 @@
-def is_case_inversion_duplicate(prev_line, line)
-  return true if (line.swapcase == prev_line) && line.length > 0
+def password_compare(prev_line, line, method)
+  case method
+  when :invert_first_char
+    return true if ("#{line[0].swapcase}#{line[1..-1]}" == prev_line) && line.length > 0
+  when :invert_all
+    return true if (line.swapcase == prev_line) && line.length > 0
+  when :extra_letter
+  end
   rescue => e
-end
-
-def is_first_letter_inverted_duplicate(prev_line, line)
-  return true if ("#{line[0].swapcase}#{line[1..-1]}" == prev_line) && line.length > 0
-  rescue => e
-end
-
-def is_one_letter_extra
-  
 end
 
 dump_file = "dumps/rockyou_sorted.txt"
@@ -51,6 +48,9 @@ puts "password_inverted_count:     #{password_inverted_count}"
 puts "duplicate_count:             #{duplicate_count}"
 puts "total_count:                 #{total_count}"
 puts "total/duplicate:             #{(duplicate_count*100.0/total_count).round(6)}%"
+
+# multiple differnces can't work together
+# e.g. if PaSSword then paSSword1 won't work. neither will PAaaWORD
 
 # sort rockyou.txt -f > rockyou_sorted.txt
 
