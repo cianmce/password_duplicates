@@ -1,4 +1,5 @@
 p
+p
 PaS - PaSS
 pas5
 pass
@@ -43,6 +44,8 @@ ______________________________________________--
 # e.g. if PaSSword then paSSword1 won't work. neither will PAaaWORD
 
 # sort rockyou.txt -f > rockyou_sorted.txt
+sort dumps/test.txt -f > dumps/test_sorted.txt
+
 
 # what if the last 6 are: pass Pass pAss paSS PasS pASS
 # pretty sure that's actually ok
