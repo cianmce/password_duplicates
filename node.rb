@@ -17,6 +17,7 @@ class Node
     return :invert_all if @text.swapcase == child.text
     return :extra_letter if @text.length > 1 && @text[0..-2] == child.text
   rescue => e
+    puts "child_type error: #{e.message} :: #{e.class}"
   end
 
   def alive?
@@ -64,8 +65,9 @@ class Node
 
   def to_s
     text = "<Node \"#{@text}\" \"#{alive? ? "alive" : "dead"}\" \n"
-    # text += "parents=[#{self.parents.map(&:text).join(", ")}]\n"
-    # text += "children=[#{self.children.map(&:text).join(", ")}]\n"
-    # text += ">"
+    text += "parents=[#{parents.map(&:text).join(", ")}]\n"
+    text += "children=[#{children.map(&:text).join(", ")}]\n"
+    text += ">"
+    text
   end
 end
