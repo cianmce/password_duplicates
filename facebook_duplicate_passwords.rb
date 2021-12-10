@@ -3,11 +3,11 @@ require_relative 'graph'
 
 
 
-file_name = "dumps/rockyou.txt"
-file_name = "dumps/test.txt"
-# file_name = "dumps/test_sorted.txt"
-# file_name = "dumps/sample_graph.txt"
+file_name = "input/rockyou.txt"
+# file_name = "input/test_sorted.txt"
+# file_name = "input/sample_graph.txt"
 file_name = "output/rockyou_uniq_0.txt"
+file_name = "input/passwords.txt"
 
 
 
