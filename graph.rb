@@ -1,21 +1,21 @@
-require_relative 'node'
+require_relative "node"
 
 class Graph
   attr_accessor :nodes, :total_count, :tree, :invalid_count, :kill_count, :verbose
 
   def initialize(file_name)
-    self.nodes       = []
-    self.tree        = Hash.new
+    self.nodes = []
+    self.tree = ({})
     self.total_count = 0
     self.invalid_count = 0
     self.kill_count = 0
-    self.load_file(file_name)
+    load_file(file_name)
     self.verbose = false
   end
 
   def load_file(file_name)
     File.open(file_name).each do |password|
-      self.logger self.total_count if self.total_count%100000 == 0
+      logger total_count if total_count % 100000 == 0
       begin
         self.total_count += 1
 
@@ -24,7 +24,7 @@ class Graph
 
         add_to_tree(node)
 
-        self.nodes << node
+        nodes << node
       rescue ArgumentError => e
         self.invalid_count += 1
         self.total_count -= 1
@@ -39,29 +39,29 @@ class Graph
   end
 
   def save_to_file(file_name)
-    self.logger "Alive size: #{self.alive_nodes.length}"
+    logger "Alive size: #{alive_nodes.length}"
     File.open(file_name, "w+") do |f|
-      f.puts(self.alive_nodes.map { |n| n.text })
+      f.puts(alive_nodes.map { |n| n.text })
     end
   end
 
   def alive_nodes
-    self.nodes.select { |n| n.alive? }
+    nodes.select { |n| n.alive? }
   end
 
   def build!
     # builds relationsships between nodes
-    self.logger "Getting children"
+    logger "Getting children"
     nodes.each_with_index do |node, i|
-      self.logger i if i%100000 == 0
-      self.get_children(node)
+      logger i if i % 100000 == 0
+      get_children(node)
     end
   end
 
   def reduce!
-    self.logger "Killing"
+    logger "Killing"
     nodes.each_with_index do |node, i|
-      self.logger i if i%100000 == 0
+      logger i if i % 100000 == 0
       # has a parent and is not a sole deplendant
       if node.remaining_parents.length > 0 && !node.is_dependant_on?
         node.kill!
@@ -73,7 +73,7 @@ class Graph
         # self.logger node.remaining_parents.map { |p| "#{p.text}: #{p.child_type(node)}" }.join(", ")
       end
     end
-    self.reduce2!
+    reduce2!
   end
 
   def reduce2!
@@ -112,7 +112,6 @@ class Graph
     end
   end
 
-
   def get_node(text)
     nodes = get_nodes_from_tree(text)
     nodes.each do |node|
@@ -123,28 +122,28 @@ class Graph
   end
 
   def to_s
-    "<#{self.file_name}>"
+    "<#{file_name}>"
   end
 
   def logger(text)
-    puts text if self.verbose
+    puts text if verbose
   end
 
   private
 
   def get_similar_nodes(node)
-    possible_children =  get_nodes_from_tree(node.text)
+    possible_children = get_nodes_from_tree(node.text)
     possible_children += get_nodes_from_tree(node.text[0..-2]) if node.text.length > 1
     possible_children
   end
 
   def get_nodes_from_tree(text)
-    self.tree[text.downcase] || []
+    tree[text.downcase] || []
   end
 
   def add_to_tree(node)
     password_downcase = node.text.downcase
-    self.tree[password_downcase] = [] if self.tree[password_downcase].nil?
-    self.tree[password_downcase] << node
+    tree[password_downcase] = [] if tree[password_downcase].nil?
+    tree[password_downcase] << node
   end
 end

@@ -1,15 +1,10 @@
-require_relative 'graph'
-
-
-
+require_relative "graph"
 
 file_name = "input/rockyou.txt"
 # file_name = "input/test_sorted.txt"
 # file_name = "input/sample_graph.txt"
 file_name = "output/rockyou_uniq_0.txt"
 file_name = "input/passwords.txt"
-
-
 
 puts "Loading file: '#{file_name}"
 graph = Graph.new file_name
@@ -18,13 +13,12 @@ puts "Loaded: #{graph.total_count} nodes\n\n"
 graph.build!
 graph.reduce!
 
-output_file = "#{file_name.gsub(".txt", ".reduced.txt")}"
+output_file = file_name.gsub(".txt", ".reduced.txt").to_s
 puts "Saving file: '#{output_file}"
 graph.save_to_file(output_file)
 
 puts "invalid count: #{graph.invalid_count}"
 puts "kill count:    #{graph.kill_count}"
-
 
 # n1 = graph.get_node("pass123word")
 # n2 = graph.get_node("Pass123word")
@@ -32,10 +26,6 @@ puts "kill count:    #{graph.kill_count}"
 # puts n1,n2
 
 # puts n2.dependant_on?(n1)
-
-
-
-
 
 # parent -> child
 # parent <-> parent
@@ -50,8 +40,6 @@ puts "kill count:    #{graph.kill_count}"
 # n2 =  graph.get_node("passw")
 # n3 = graph.get_node("PASSW")
 # # puts n1,n2,n3
-
-
 
 # puts graph.get_node("PASS").is_dependant_on?
 
